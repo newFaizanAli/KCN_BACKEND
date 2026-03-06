@@ -1,0 +1,1 @@
+DROP TABLE "stock_transactions" CASCADE;

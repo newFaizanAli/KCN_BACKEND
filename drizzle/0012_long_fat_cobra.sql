@@ -1,0 +1,1 @@
+ALTER TABLE "stocks" ALTER COLUMN "serial_number" DROP NOT NULL;

@@ -1,0 +1,1 @@
+ALTER TABLE "stock_transactions" ADD COLUMN "notes" varchar(1000);
