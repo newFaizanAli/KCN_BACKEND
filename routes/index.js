@@ -15,4 +15,6 @@ app.use("/customers", require("./customers"))
 
 app.use("/suppliers", require("./suppliers"))
 
+app.use("/purchases", require("./purchases"))
+
 module.exports = app

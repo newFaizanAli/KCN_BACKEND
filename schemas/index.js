@@ -1,5 +1,5 @@
 
-const { pgTable, serial, varchar, boolean, integer, uuid } = require('drizzle-orm/pg-core');
+const { pgTable, serial, varchar, boolean, integer, timestamp } = require('drizzle-orm/pg-core');
 
 // users
 
@@ -94,6 +94,17 @@ const suppliers = pgTable("suppliers", {
     address: varchar('address', { length: 100 }).default(null),
 });
 
+// puchase
+
+const purchase_orders = pgTable('purchase_orders', {
+    id: serial('id').primaryKey(),
+    supplierId: integer('suppliers').references(() => suppliers.id, { onDelete: ('cascade') }).notNull(),
+    status: varchar('status', { length: 20 }).notNull().default('pending'),
+    tax: integer('tax').default(0),
+    total_amount: integer('total_amount').notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+});
+
 module.exports = {
     users,
     categories,
@@ -102,5 +113,6 @@ module.exports = {
     stocks,
     stock_transactions,
     customers,
-    suppliers
+    suppliers,
+    purchase_orders
 }
