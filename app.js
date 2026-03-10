@@ -16,6 +16,11 @@ app.use("/api", require("./routes"));
 
 const port = 3000;
 
+app.use("/check", () => {
+    res.send("working ...");
+});
+
+
 app.listen(port, () => {
     console.log(`app running on port ${port}`);
 })
