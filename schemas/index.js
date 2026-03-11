@@ -105,6 +105,16 @@ const purchase_orders = pgTable('purchase_orders', {
     createdAt: timestamp("created_at").defaultNow(),
 });
 
+
+const purchase_items = pgTable('purchase_items', {
+    id: serial('id').primaryKey(),
+    purchaseId: integer('purchase_orders').references(() => purchase_orders.id, { onDelete: ('cascade') }).notNull(),
+    productId: integer('products').references(() => products.id, { onDelete: ('cascade') }).notNull(),
+    quantity: integer('quantity').notNull(),
+    unit_cost: integer('unit_cost').notNull(),
+    total: integer('total').notNull(),
+})
+
 module.exports = {
     users,
     categories,
@@ -114,5 +124,6 @@ module.exports = {
     stock_transactions,
     customers,
     suppliers,
-    purchase_orders
+    purchase_orders,
+    purchase_items
 }
