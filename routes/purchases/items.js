@@ -9,12 +9,12 @@ const itemWithOrderQuery = (condition) => {
 
     let query = db
         .select({
-            id: purchase_orders.id,
+            id: purchase_items.id,
             quantity: purchase_items.quantity,
             unit_cost: purchase_items.unit_cost,
             total: purchase_items.total,
 
-            orderId: purchase_orders.id,
+            purchaseId: purchase_orders.id,
             orderStatus: purchase_orders.status,
             orderTax: purchase_orders.tax,
 
@@ -73,11 +73,13 @@ router.post('/', async (req, res) => {
 
         const [newItems] = await db.insert(purchase_items).values({ purchaseId, productId, quantity, unit_cost, total }).returning();
 
-        const [items] = await itemWithOrderQuery(
+        const [item] = await itemWithOrderQuery(
             eq(purchase_items.id, newItems.id)
         );
 
-        res.json({ data: items, success: true });
+
+
+        res.json({ data: item, success: true });
 
     }
     catch (error) {
@@ -91,6 +93,8 @@ router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const { purchaseId, productId, quantity, unit_cost, total } = req.body;
+
+
 
         if (total === undefined || !purchaseId || !purchaseId) {
             return res.json({
@@ -136,6 +140,7 @@ router.delete('/:id', async (req, res) => {
         if (!id) {
             return res.json({ success: false, message: 'Item ID is required' });
         }
+
         const [deletedItem] = await db.delete(purchase_items).where(eq(purchase_items.id, id)).returning()
         if (!deletedItem) {
             return res.json({ message: 'Item not found', success: false });

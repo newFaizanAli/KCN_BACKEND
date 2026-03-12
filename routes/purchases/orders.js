@@ -28,6 +28,9 @@ const orderWithSupplierQuery = (condition) => {
 };
 
 
+
+
+
 router.get('/', async (req, resp) => {
     try {
         const allOrders = await orderWithSupplierQuery();
@@ -47,6 +50,8 @@ router.post('/', async (req, res) => {
 
         const [newOrder] = await db.insert(purchase_orders).values({ status, tax, total_amount, supplierId }).returning();
 
+
+
         const [order] = await orderWithSupplierQuery(
             eq(purchase_orders.id, newOrder.id)
         );
@@ -63,6 +68,8 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
+
+
         const { id } = req.params;
         const { status, tax, total_amount, supplierId } = req.body;
 
@@ -76,7 +83,7 @@ router.put('/:id', async (req, res) => {
         const [updatedOrder] = await db
             .update(purchase_orders)
             .set({
-                ...(status !== undefined && { status }),
+                // ...(status !== undefined && { status }),
                 ...(tax !== undefined && { tax }),
                 ...(total_amount !== undefined && { total_amount }),
                 ...(supplierId && { supplierId }),
@@ -90,6 +97,8 @@ router.put('/:id', async (req, res) => {
                 message: 'Order not found'
             });
         }
+
+
 
         const [order] = await orderWithSupplierQuery(eq(purchase_orders.id, updatedOrder.id));
 

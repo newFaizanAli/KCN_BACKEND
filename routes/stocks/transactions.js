@@ -14,7 +14,8 @@ const transactionWithStockQuery = (condition) => {
             type: stock_transactions.type,
             reference_id: stock_transactions.reference_id,
             notes: stock_transactions.notes,
-            serial_number: stocks.serial_number
+            serial_number: stocks.serial_number,
+            productName: products.name
         })
         .from(stock_transactions)
         .leftJoin(stocks, eq(stock_transactions.stockId, stocks.id))

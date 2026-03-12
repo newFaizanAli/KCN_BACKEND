@@ -115,6 +115,15 @@ const purchase_items = pgTable('purchase_items', {
     total: integer('total').notNull(),
 })
 
+
+// goods_receipts (GRN)
+
+const goods_receipt_notes = pgTable('goods_receipt_notes', {
+    id: serial('id').primaryKey(),
+    purchaseId: integer('purchase_orders').references(() => purchase_orders.id, { onDelete: ('cascade') }).notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+})
+
 module.exports = {
     users,
     categories,
@@ -125,5 +134,6 @@ module.exports = {
     customers,
     suppliers,
     purchase_orders,
-    purchase_items
+    purchase_items,
+    goods_receipt_notes
 }
